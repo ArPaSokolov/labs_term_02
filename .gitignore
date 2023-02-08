@@ -2,4 +2,4 @@
 *.cmake
 *.txt
 *.sln
-CMakeFiles.*
+CMakeFiles
