@@ -3,3 +3,4 @@
 *.txt
 *.sln
 CMakeFiles
+*.vs
