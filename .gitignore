@@ -1,1 +1,5 @@
-*.vcxproj
+*.vcxproj*
+*.cmake
+*.txt
+*.sln
+CMakeFiles.*
