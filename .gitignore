@@ -1,3 +1,4 @@
+#CMake
 *.vcxproj*
 *.cmake
 *.txt
@@ -8,3 +9,5 @@ ext
 *.dir
 Debug
 x64
+!CMakeLists.txt
+
