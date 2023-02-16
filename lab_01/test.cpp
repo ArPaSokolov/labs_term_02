@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 using namespace std;
 
 int main()
@@ -6,7 +7,7 @@ int main()
     string theString;
     string animatedString;
     cout << "Enter the string" << endl;
-    cin >> theString;
+    getline(cin, theString);
     int Number = theString.length();
     cout << Number << endl;
     for (int count = 0; count < Number; count++)
