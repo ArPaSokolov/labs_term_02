@@ -10,19 +10,19 @@
 #include <cmath>
 using namespace std;
 
-class rect // класс
+class Rect // класс
 {
 private: // модификатор доступа
 	int *A; // поле
 	int *B; // поле
 	const float pi = 3.1415926535; // поле
 public: // модификатор доступа
-	rect(int *valueA, int *valueB) // constructor 1
+	Rect(int *valueA, int *valueB) // constructor 1
 	{
 		A = valueA;
 		B = valueB;
 	}
-	rect() // constructor 2
+	Rect() // constructor 2
 	{
 		A = new int;
 		B = new int;
@@ -63,7 +63,7 @@ public: // модификатор доступа
 		cout << "PI is: " << pi << endl;
 	}
 
-	~rect() // destructor
+	~Rect() // destructor
 	{
 		delete A;
 		delete B;
@@ -77,11 +77,13 @@ int main()
 	int valueB;
 	cin >> valueA;
 	cin >> valueB;
-	rect AB (&valueA, &valueB); //обЪект
 
+	Rect AB (&valueA, &valueB); //обЪект
+	
 	cout << "Square is: " << AB.Square() << endl;
 	cout << "Circle length is: " << AB.circleLength() << endl;
 	cout << "" << endl;
+	
 	AB.Show();
 
 	return 0;

@@ -17,7 +17,7 @@ include_directories("ext/SFML/include/")	# добавляем директори
 
 link_directories("ext/SFML/lib/")	
 
-add_executable("${PROJECT_NAME}" src/var_8.cpp)
+add_executable("${PROJECT_NAME}" var_8.cpp)
 											
 target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
 						  sfml-window-s-d
