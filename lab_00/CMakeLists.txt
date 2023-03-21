@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
-project(var_8)
+project(lab_00)
 
 add_executable(var_8 src/var_8.cpp)
 

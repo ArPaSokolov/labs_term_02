@@ -39,8 +39,8 @@ public: // модификатор доступа
         text.setFont(font);
 
         // размер в пикселях
-        text.setCharacterSize(100);
-
+        int i = 100;
+        
         // цвет
         text.setFillColor(sf::Color(222, 184, 135));
 
@@ -50,13 +50,13 @@ public: // модификатор доступа
         // задержка
         cout << "Enter the time: ";
         cin >> ShowTime;
-        cout << "The delay: " << (ShowTime / (theString.length() - 1) * 1.000) << " seconds" << endl;
+        cout << "The delay: " << ((ShowTime / (theString.length() - 1)) * 1.000) << " seconds" << endl; //правильная задержка
         int count = 0; // счетчик
         clock_t tStart = 0; // таймер
 
         // окно
-        int Width = theString.length() * 54;
-        int Height = 150;
+        int Width = theString.length() * 64;
+        int Height = 250;
         sf::RenderWindow window(sf::VideoMode(Width, Height), "Text animation");
 
         while (window.isOpen())
@@ -77,6 +77,8 @@ public: // модификатор доступа
                 count++;
 
                 // текст
+                i += 2;
+                text.setCharacterSize(i);
                 text.setString(theText);
                 
                 // анимируем текст
