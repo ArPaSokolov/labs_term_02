@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <bitset>
-//#include <vector>
+#include <vector>
 
 template <size_t N> 
 class MyVectorBool 

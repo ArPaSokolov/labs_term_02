@@ -53,8 +53,20 @@ public: // модификатор доступа
                 matrix[i][j] = A.matrix[i][j];
     }
 
+    // геттер
+    int GetM()
+    {
+        return M;
+    }
+
+    // геттер
+    int GetN()
+    {
+        return N;
+    }
+
     // оператор присваивания копированием
-    Matrix<T>& operator = (Matrix<T> A)
+        Matrix<T>&operator = (Matrix<T> A)
     {
         if (N > 0)
         {
@@ -73,7 +85,7 @@ public: // модификатор доступа
         N = A.N;
 
         // Выделить память для M опять
-        matrix = (T**) new T*[M]; // количество строк, количество указателей
+        matrix = (T**) new T * [M]; // количество строк, количество указателей
         for (int i = 0; i < M; i++)
             matrix[i] = (T*) new T[N];
 
@@ -83,6 +95,7 @@ public: // модификатор доступа
                 matrix[i][j] = A.matrix[i][j];
         return *this;
     }
+
 
     // оператор ввода
     friend istream& operator >> (istream& in, Matrix<T>& A)
@@ -123,7 +136,6 @@ public: // модификатор доступа
                 for (int j = 0; j < A.N; j++)
                 {
                     temp.matrix[i][j] = A.matrix[i][j] + B.matrix[i][j];
-                    /*cout << temp.matrix[i][j];*/
                 }
             }
             return temp;
@@ -138,14 +150,22 @@ public: // модификатор доступа
     // оператор +=
     Matrix<T>& operator += (const Matrix<T>& A)
     {
-        for (int i = 0; i < M; i++)
+        if (A.M == M && A.N == N)
         {
-            for (int j = 0; j < N; j++)
+            for (int i = 0; i < M; i++)
             {
-                matrix[i][j] += A.matrix[i][j];
+                for (int j = 0; j < N; j++)
+                {
+                    matrix[i][j] += A.matrix[i][j];
+                }
             }
+            return *this;
         }
-        return *this;
+        else
+        {
+            Matrix<int> temp;
+            return temp;
+        }
     }
 
     // оператор -
@@ -159,10 +179,9 @@ public: // модификатор доступа
                 for (int j = 0; j < A.N; j++)
                 {
                     temp.matrix[i][j] = A.matrix[i][j] - B.matrix[i][j];
-                    /*cout << temp.matrix[i][j];*/
                 }
             }
-            return temp;
+            return temp;   
         }
         else
         {
@@ -203,21 +222,23 @@ public: // модификатор доступа
             Matrix<int> temp;
             return temp;
         }
-
-        Matrix<int> temp(M, A.N);
-
-        for (int i = 0; i < M; i++) 
+        else
         {
-            for (int j = 0; j < A.N; j++) 
+            Matrix<int> temp(M, A.N);
+
+            for (int i = 0; i < M; i++)
             {
-                for (int k = 0; k < N; k++) 
+                for (int j = 0; j < A.N; j++)
                 {
-                    temp.matrix[i][j] += matrix[i][k] * A.matrix[k][j];
+                    for (int k = 0; k < N; k++)
+                    {
+                        temp.matrix[i][j] += matrix[i][k] * A.matrix[k][j];
+                    }
                 }
             }
+            *this = temp;
+            return *this;
         }
-        *this = temp;
-        return *this;
     }
 
     // оператор ++
@@ -225,24 +246,18 @@ public: // модификатор доступа
     {
         for (int i = 0; i < M; i++)
         {
-            for (int j = 0; j < N; j++)
-            {
-                if (j == N - 1)
-                {
-                    matrix[i][j]++;
-                }
-            }
+            matrix[i][N - 1]++;
         }
         return *this;
     }
 
     // определитель
-    void Determinant()
+    double Determinant()
     {
         if (N == M && N == 2)
         {
             int det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-            cout << "det = " << det << endl;
+            return det;
         }
         else if (N == M && N == 3)
         {
@@ -250,13 +265,17 @@ public: // модификатор доступа
                 * matrix[2][1] - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][1] * matrix[1][2]
                 * matrix[2][0] - matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][2] * matrix[1][0]
                 * matrix[2][1];
-            cout << "det = " << det << endl;
+            return det;
         }
         else
+        {
             cout << "Error" << endl;
+            double det = 0;
+            return det;
+        }
     }
 
-    void Delete(int valueN, int valueM)
+    void Rewrite(int valueN, int valueM)
     {
         if (N > 0)
         {
@@ -284,19 +303,11 @@ public: // модификатор доступа
                 matrix[i][j] = 0;
     }
 
-    void Edit()
+    void EditWithDet(int ei, int ej, int edit)
     {
-        int ei;
-        int ej;
-        double edit;
-        cout << "Enter 'i' from " << 1 << " to " << M << " : ";
-        cin >> ei;
-        cout << "Enter 'j' from " << 1 << " to " << N  << " : ";
-        cin >> ej;
-        cout << "Change element: " << matrix[ei-1][ej-1];
-        cout << " to: ";
-        cin >> edit;
-        matrix[ei-1][ej-1] = edit;
+        cout << "Element: " << matrix[ei - 1][ej - 1];
+        cout << " changed to: " << edit;
+        matrix[ei - 1][ej - 1] = edit;
     }
 
     ~Matrix()
@@ -322,8 +333,18 @@ int main()
     // матрица А
     cout << "Enter M:" << endl;
     cin >> valueM;
+    while (valueM < 0)
+    {
+        cout << "Incorrect value. Enter M:" << endl;
+        cin >> valueM;
+    }
     cout << "Enter N:" << endl;
     cin >> valueN;
+    while (valueN < 0)
+    {
+        cout << "Incorrect value. Enter M:" << endl;
+        cin >> valueN;
+    }
     Matrix<int> A1(valueN, valueM);
     cin >> A1;
     cout << "- - - - - - - - - - ";
@@ -354,7 +375,7 @@ int main()
             cin >> valueM;
             cout << "Enter N:" << endl;
             cin >> valueN;
-            A1.Delete(valueN, valueM);
+            A1.Rewrite(valueN, valueM);
             cin >> A1;
             cout << "- - - - - - - - - - ";
 
@@ -364,7 +385,7 @@ int main()
             cin >> valueM;
             cout << "Enter N:" << endl;
             cin >> valueN;
-            B1.Delete(valueN, valueM);
+            B1.Rewrite(valueN, valueM);
             cin >> B1;
 
             cout << "- - - - - - - - - - " << endl;
@@ -415,7 +436,7 @@ int main()
         // определитель A
         else if (flag == "detA")
         {
-            A1.Determinant();
+            cout << A1.Determinant() << endl;
 
             cout << "- - - - - - - - - - " << endl;
             cout << "Enter operation: ";
@@ -425,7 +446,7 @@ int main()
         // определитель B
         else if (flag == "detB")
         {
-            B1.Determinant();
+            cout << B1.Determinant() << endl;
 
             cout << "- - - - - - - - - - " << endl;
             cout << "Enter operation: ";
@@ -484,22 +505,56 @@ int main()
             cin >> flag;
         }
 
-        // замена в A
+        // замена в A на Det
         else if (flag == "editA")
         {
-            A1.Edit();
-            cout << A1;
+            int ei;
+            int ej;
+            double edit = A1.Determinant();
+            cout << "Enter 'i' from " << 1 << " to " << A1.GetM() << " : ";
+            cin >> ei;
+            while (ei < 1 || ei > A1.GetM())
+            {
+                cout << "Incorrect value. Enter i:" << endl;
+                cin >> ei;
+            }
+            cout << "Enter 'j' from " << 1 << " to " << A1.GetN() << " : ";
+            cin >> ej;
+            while (ej < 1 || ej > A1.GetN())
+            {
+                cout << "Incorrect value. Enter i:" << endl;
+                cin >> ej;
+            }
+            A1.EditWithDet(ei, ej, edit);
+            cout << endl;
 
             cout << "- - - - - - - - - - " << endl;
             cout << "Enter operation: ";
             cin >> flag;
         }
 
-        // замена в B
+        // замена в B на Det
         else if (flag == "editB")
         {
-            B1.Edit();
-            cout << B1;
+            int ei;
+            int ej;
+            double edit = B1.Determinant();
+            cout << "Enter 'i' from " << 1 << " to " << B1.GetM() << " : ";
+            cin >> ei;
+            while (ei < 1 || ei > B1.GetM())
+            {
+                cout << "Incorrect value. Enter i:" << endl;
+                cin >> ei;
+            }
+            cout << "Enter 'j' from " << 1 << " to " << B1.GetN() << " : ";
+            cin >> ej;
+            while (ej < 1 || ej > B1.GetN())
+            {
+                cout << "Incorrect value. Enter i:" << endl;
+                cin >> ej;
+            }
+            B1.EditWithDet(ei, ej, edit);
+            cout << endl;
 
             cout << "- - - - - - - - - - " << endl;
             cout << "Enter operation: ";
@@ -524,6 +579,7 @@ int main()
             cin >> flag;
         }
         
+        // ошибочный ввод
         else
         {
             cout << "Operation is not correct. Enter operation: ";
