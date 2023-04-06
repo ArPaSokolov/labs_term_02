@@ -163,7 +163,7 @@ public: // модификатор доступа
         }
         else
         {
-            Matrix<int> temp;
+            Matrix<T> temp;
             return temp;
         }
     }
@@ -185,7 +185,7 @@ public: // модификатор доступа
         }
         else
         {
-            Matrix<int> temp;
+            Matrix<T> temp;
             return temp;
         }
     }
@@ -195,12 +195,11 @@ public: // модификатор доступа
     {
         if (A.N == B.M) // (кол-во столбцов А = кол-во строк В)
         {
-            Matrix<int> temp(B.N, A.M);
+            Matrix<T> temp(B.N, A.M);
             for (int i = 0; i < A.M; i++) 
             {
                 for (int j = 0; j < B.N; j++)
                 {
-                    temp.matrix[i][j] = 0;
                     for (int k = 0; k < A.N; k++)
                         temp.matrix[i][j] += (A.matrix[i][k] * B.matrix[k][j]);
                 }
@@ -209,7 +208,7 @@ public: // модификатор доступа
         }
         else
         {
-            Matrix<int> temp;
+            Matrix<T> temp;
             return temp;
         }
     }
@@ -219,12 +218,12 @@ public: // модификатор доступа
     {
         if (N != A.M) 
         {
-            Matrix<int> temp;
+            Matrix<T> temp;
             return temp;
         }
         else
         {
-            Matrix<int> temp(M, A.N);
+            Matrix<T> temp(M, A.N);
 
             for (int i = 0; i < M; i++)
             {
@@ -252,16 +251,16 @@ public: // модификатор доступа
     }
 
     // определитель
-    double Determinant()
+    T Determinant()
     {
         if (N == M && N == 2)
         {
-            int det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+            T det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
             return det;
         }
         else if (N == M && N == 3)
         {
-            int det = matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2]
+            T det = matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2]
                 * matrix[2][1] - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][1] * matrix[1][2]
                 * matrix[2][0] - matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][2] * matrix[1][0]
                 * matrix[2][1];
@@ -270,7 +269,7 @@ public: // модификатор доступа
         else
         {
             cout << "Error" << endl;
-            double det = 0;
+            T det = 0;
             return det;
         }
     }
