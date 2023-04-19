@@ -32,7 +32,7 @@ public:
 		}
 	}
 
-	MyVectorBool(MyVectorBool& V) {
+	MyVectorBool(MyVectorBool& V) { //конструктор копированием
 		size = V.size;
 		binaryN = (bool*)calloc(size, sizeof(bool)); // выделяем память под бинарную запись числа
 		if (binaryN != NULL) { // проверяем, выделилась ли память успешно
