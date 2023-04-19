@@ -1,9 +1,4 @@
-﻿/*Создайте класс MyText, который позволит создавать анимированный вывод текста.
-Класс должен содержать строку text, переменную ShowTime,
-которая указывает время вывода всей строки на экран и метод AnimationText(),
-которые выводит текст на экран.*/
-
-#include <iostream>
+﻿#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <thread>
