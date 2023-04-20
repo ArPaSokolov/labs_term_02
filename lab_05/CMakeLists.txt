@@ -1,9 +1,13 @@
-cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
+									 # Если версия установленой программы
+									 # старее указаной, произайдёт аварийный выход.
 
-project(lab_05)
+set(PROJECT_NAME lab_5)				 # имя проекта		 
+project("${PROJECT_NAME}")
 
-add_executable(var_1 src/var_1.cpp)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)			 # устанавливаем 17 стандарт языка
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)	
+
+add_executable("${PROJECT_NAME}" src/main.cpp src/log.h src/log.cpp)
