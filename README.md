@@ -7,3 +7,6 @@
  оператор присваивания копированием, операторы, friend, explicit)
 3. Матрицы
 4. BoolVector (malloc, calloc, realloc, free)
+5. Logger (static)
+6. 
+7. Стек (cтек, очередь, stack*, queue*)
