@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 project(lab_06)
 
-add_executable(var_1 src/var_1.cpp)
+add_executable(var_8 src/var_8.cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
