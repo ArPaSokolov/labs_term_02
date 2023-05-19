@@ -19,7 +19,7 @@ int main()
 
 	Log::AutoLog(3, "Invalid data type", "001");
 	Log::AutoLog(3, "Out of range", "002");
-	Log::AutoLog(3, "Slishkom mnogo bukav", "001");
+	Log::AutoLog(3, "Slishkom mnogo bukav", "003");
 
 	Log::End(4, "Program finished successfully");
 	return 0;
