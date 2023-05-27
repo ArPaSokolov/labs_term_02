@@ -79,8 +79,8 @@ public:
 			if (m_logLevel == Level::ERROR) {
 				time_t t = time(nullptr); // время
 				tm ptm = *localtime(&t); // время
-				std::cerr << "\x1b[31m" << "[ERROR#" /*<< enmbr <<*/ "][" << std::put_time(&ptm, "%T") << "]" << _Format << err << "\x1b[0m" << std::endl;
-				m_out << "[[ERROR#" /*<< enmbr <<*/ "][" << std::put_time(&ptm, "%d:%m:%Y %H:%M:%S") << "]" << _Format << err << std::endl;
+				std::cerr << "\x1b[31m" << "[ERROR#" << _Format << "][" << std::put_time(&ptm, "%T") << "]" << err << "\x1b[0m" << std::endl;
+				m_out << "[[ERROR#" << _Format << "][" << std::put_time(&ptm, "%d:%m:%Y %H:%M:%S") << "]" << err << std::endl;
 			}
 		}
 	}
