@@ -20,9 +20,12 @@ public:
 			filled = 0;
 			cerr << "Stack created!" << endl;
 		}
-		catch(...){
-			data = nullptr;
-			cerr << "bad_alloc :(" << endl;
+		catch (...) {
+			maxsize = 1;
+			filled = 1;
+			data = new double[maxsize];
+			data[0] = 0;
+			cerr << "bad_alloc" << endl;
 		}
 	}
 
@@ -34,18 +37,6 @@ public:
 		return maxsize;
 	}
 
-	void Fill() { // заполняем стек рандомным количеством рандомных чисел
-		int topsize = GetRandomNumber(1, 8);
-		while (filled < topsize) {
-			data[filled] = 20 + rand() % (100 - 20 + 1);; // добавляем элемент
-			cout << "Element " << data[filled] << " was added!" << endl;
-			filled += 1; // стек пополнился на один элемент
-		}
-		for (int i = filled; i < maxsize; i++) {
-			data[i] = 0;
-		}
-	}
-
 	bool Empty() { // проверка на пустоту стека
 		bool empty = false;
 		if (filled == 0) {
@@ -54,14 +45,17 @@ public:
 		return empty;
 	}
 
-	void Push() { // добавляем элемент сверху стека
-		cout << "Enter new element to push: ";
+	void Push(double K) { // добавляем элемент сверху стека
 		try {
-			cin >> data[filled]; // добавляем элемент
+			data[filled] = K; // добавляем элемент
+			cout << "Element " << data[filled] << " was added!" << endl;
 			filled += 1; // стек пополнился на один элемент
+			for (int i = filled; i < maxsize; i++) {
+				data[i] = 0;
+				}
 		}
 		catch (...) {
-			cerr << "overflow_error :(" << endl;
+			cerr << "overflow_error" << endl;
 		}
 	}
 
@@ -75,7 +69,7 @@ public:
 			return pop;
 		}
 		catch (...) {
-			cerr << "out_of_range :(" << endl; 
+			cerr << "out_of_range" << endl;
 		}
 	}
 
@@ -84,7 +78,7 @@ public:
 			cout << "The top element of the stack is: " << data[filled - 1] << endl; // выводим верхний элемент
 		}
 		catch (...) {
-			cerr << "logic_error :(" << endl;
+			cerr << "logic_error" << endl;
 		}
 	}
 
@@ -108,13 +102,6 @@ public:
 			cout << data[i] << endl;
 		}
 	}
-
-	int GetRandomNumber(int min, int max) // поиск рандомного числа от min до max
-	{
-		srand(time(NULL)); // автоматическая рандомизация
-		int num = min + rand() % (max - min + 1);
-		return num;
-	}
 	
 	~Stack() { // деструктор
 		try {
@@ -130,23 +117,33 @@ public:
 
 int main()
 {
+	double K;
+	srand(time(nullptr)); // для рандома
+
 	Stack stack(10);
 
-	stack.Fill();
+	// заполняем рандомным количеством
+	int topsize = 1 + rand() % 8;
+	while (stack.GetSize() < 10) {
+		K = 20 + rand() % (100 - 20 + 1);
+		stack.Push(K);
+	}
 
 	stack.Info();
 
-	stack.Push();
+	stack.Push(23);
 
-	stack.Info();
-
-	stack.ShowStack();
-
+	//stack.ShowStack(); 
+	
 	stack.Pop();
 
 	stack.Top();
 
 	Stack errorstack(-5);
+
+	errorstack.Info();
+
+	errorstack.ShowStack();
 
 	return 0;
 }
