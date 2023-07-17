@@ -1,8 +1,12 @@
 ﻿#include <iostream> 
-#include "log.h"
 #include <sqlite3/sqlite3.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <ctime>
+#include <cstring>
+
+#include "log.h"
 
 using namespace std;
 
@@ -10,7 +14,7 @@ class SQLite
 {
 private:
 	string dbname;
-	/*string tablename;*/
+	string tablename = "traffic";
 	sqlite3* db;
 
 static int callback(void* data, int argc, char** argv, char** azColName) {
@@ -38,12 +42,12 @@ public:
 
 	}
 
-    void Open()
+    void Open() // открываем базу
     {
         try
         {
             int rc = sqlite3_open(dbname.c_str(), &db);
-			Log::AutoLog(Log::INFO, "Opened database successfully");
+			Log::AutoLog(Log::INFO, "Opened" + tablename + "successfully");
         }
         catch (...)
         {
@@ -54,21 +58,74 @@ public:
 	string Insert() {
 		try
 		{
-			Log::AutoLog(Log::INFO, "Inserting data");
-			string somedata;
+			Log::AutoLog(Log::INFO, "Inserting data...");
+			string insert;
 			cout << "Введите somedata: ";
-			cin >> somedata;
-			string insert = "INSERT INTO TEST (somedata) "  \
-				"VALUES ( ('" + somedata + "') ); ";
+			cin >> insert;
+			string sql = "INSERT INTO " + dbname + " (somedata) "  \
+				"VALUES ( ('" + insert + "') ); ";
 			Log::AutoLog(Log::INFO, "Insert data finished");
-			return insert;
+			return sql;
 		}
 		catch (...) {
 			Log::AutoLog(Log::ERROR, "SQL", sqlite3_errmsg(db));
 		}
 	}
 
-    void Exec(const string& sql)
+	string AddColumn() { // добавляем колонку
+		try
+		{
+			Log::AutoLog(Log::INFO, "Inserting data...");
+			time_t now = time(nullptr);
+
+			time_t rawtime;
+			struct tm* timeinfo;
+			char buffer[15];
+
+			time(&rawtime);
+			timeinfo = localtime(&rawtime);
+
+			strftime(buffer, sizeof(buffer), "'%Y.%m.%d'", timeinfo);
+			string str(buffer);
+
+			string sql = "ALTER TABLE " + tablename + " ADD COLUMN " + str + " TEXT";
+
+			Log::AutoLog(Log::INFO, "Insert data finished");
+			return sql;
+		}
+		catch (...) {
+			Log::AutoLog(Log::ERROR, "SQL", sqlite3_errmsg(db));
+		}
+	}
+
+	string Select() {
+		try
+		{
+			Log::AutoLog(Log::INFO, "Selecting data...");
+			string select;
+			cout << "Введите фильтр: ";
+			cin >> select;
+			string sql = "SELECT " + select + "  from " + tablename + "";
+			Log::AutoLog(Log::INFO, "Selecting data finished");
+			return sql;
+		}
+		catch (...) {
+			Log::AutoLog(Log::ERROR, "SQL", sqlite3_errmsg(db));
+		}
+	}
+
+	string Query() {
+		try
+		{
+			string sql = "SELECT * FROM " + tablename + " WHERE somedata LIKE '%Browser%'"; // запрос к базе данных
+			return sql;
+		}
+		catch (...) {
+			Log::AutoLog(Log::ERROR, "SQL", sqlite3_errmsg(db));
+		}
+	}
+
+    void Exec(const string& sql) // запрос = обращение к базе данных
     {
         char* zErrMsg = 0;
 		Log::AutoLog(Log::INFO, "Callback function called");
@@ -84,7 +141,7 @@ public:
     }
 };
 
-int main(int argc, char* argv[])
+int main()
 {
 	setlocale(LC_ALL, "ru");
 
@@ -94,15 +151,15 @@ int main(int argc, char* argv[])
 	Log::AutoLog(Log::DEBUG, "Program is running");
 	Log::AutoLog(Log::RELEASE, "Program is running");
 
-	
-    SQLite s("test.db");
+
+    SQLite s("database.db");
 
     s.Open();
-    s.Exec("SELECT * from TEST");
-	s.Exec(s.Insert()); 
-	s.Exec("SELECT * from TEST");
-
+    s.Exec(s.Select());
+	//s.Exec(s.AddColumn());
+	
 
 	Log::End(Log::END, "Program finished successfully");
 	return 0;
 }
+

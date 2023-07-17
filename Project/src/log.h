@@ -73,14 +73,14 @@ public:
 		}
 	}
 
-	static void AutoLog(int logLevel, const char *_Format, const char *err) { // ERROR
+	static void AutoLog(int logLevel, const char *format, const char *err) { // ERROR
 		if (flag[ERROR] == true) { // галочка на ERROR стоит
 			Log::SetLogLevel(static_cast<Log::Level>(logLevel)); // открываем уровень
 			if (m_logLevel == Level::ERROR) {
 				time_t t = time(nullptr); // время
 				tm ptm = *localtime(&t); // время
-				std::cerr << "\x1b[31m" << "[ERROR#" << _Format << "][" << std::put_time(&ptm, "%T") << "]" << err << "\x1b[0m" << std::endl;
-				m_out << "[[ERROR#" << _Format << "][" << std::put_time(&ptm, "%d:%m:%Y %H:%M:%S") << "]" << err << std::endl;
+				std::cerr << "\x1b[31m" << "[ERROR#" << format << "][" << std::put_time(&ptm, "%T") << "]" << err << "\x1b[0m" << std::endl;
+				m_out << "[[ERROR#" << format << "][" << std::put_time(&ptm, "%d:%m:%Y %H:%M:%S") << "]" << err << std::endl;
 			}
 		}
 	}
